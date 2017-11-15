@@ -46,8 +46,8 @@ OE_ENTERPRISE_ADDONS="${OE_HOME}/enterprise/addons"
 ## === Ubuntu Trusty x64 & x32 === (for other distributions please replace these two links,
 ## in order to have correct version of wkhtmltox installed, for a danger note refer to
 ## https://www.odoo.com/documentation/8.0/setup/install.html#deb ):
-WKHTMLTOX_X64=https://downloads.wkhtmltopdf.org/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
-WKHTMLTOX_X32=https://downloads.wkhtmltopdf.org/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-i386.deb
+WKHTMLTOX_X64=https://downloads.wkhtmltopdf.org/0.12/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+WKHTMLTOX_X32=https://downloads.wkhtmltopdf.org/0.12/0.12.4/wkhtmltox-0.12.4_linux-generic-i386.tar.xz
 
 #############
 ### FUNCTIONS
@@ -137,7 +137,10 @@ if [ $INSTALL_WKHTMLTOPDF = "True" ]; then
       _url=$WKHTMLTOX_X32
   fi
   sudo wget -nc $_url >> $INSTALL_LOG
-  sudo gdebi --n `basename $_url` >> $INSTALL_LOG
+  tar xf `basename $_url`
+  sudo mv wkhtmltox/bin/* /usr/local/bin/
+  rm -Rf wkhtmltox*
+  #sudo gdebi --n `basename $_url` >> $INSTALL_LOG
   set +e
   sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin >> $INSTALL_LOG
   sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin >> $INSTALL_LOG
